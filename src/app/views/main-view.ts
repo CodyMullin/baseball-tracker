@@ -80,7 +80,7 @@ export class BtMainView {
   onMapLoad(map: MapLibre): void {
     this.map = map;
     this.deckgl.createOverlay(map, { interleaved: true });
-    this.baseball.loadInitialData();
+    this.baseball.loadData();
   }
 
   onLayerCreated(layer: Layer): void {

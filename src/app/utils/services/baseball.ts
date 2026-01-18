@@ -85,12 +85,14 @@ export class BaseballService {
     });
   });
 
-  travelPath = computed<{ coordinates: [number, number]; homeAway: 'home' | 'away' | 'neutral' }[]>(() => {
-    return this.gamesWithLocations().map((g) => ({
-      coordinates: g.coordinates,
-      homeAway: g.home_away,
-    }));
-  });
+  travelPath = computed<{ coordinates: [number, number]; homeAway: 'home' | 'away' | 'neutral' }[]>(
+    () => {
+      return this.gamesWithLocations().map((g) => ({
+        coordinates: g.coordinates,
+        homeAway: g.home_away,
+      }));
+    },
+  );
 
   changeTeams(value: string) {
     this.selectedTeam.set(value);
@@ -99,7 +101,7 @@ export class BaseballService {
     this._updateSchedule();
   }
 
-  loadInitialData() {
+  loadData() {
     forkJoin({
       ballparks: this._http.get<BallparkCollection>('/assets/ballparks.json'),
       schedules: this._http.get<SchedulesData>('/assets/schedules.json'),

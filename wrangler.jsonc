@@ -1,0 +1,8 @@
+{
+  "name": "baseball-tracker",
+  "compatibility_date": "2026-01-18",
+  "assets": {
+    "directory": "dist/baseball-tracker/browser",
+    "not_found_handling": "single-page-application",
+  },
+}
