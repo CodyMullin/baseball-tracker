@@ -37,6 +37,12 @@
                   "maximumError": "1MB"
                 },
                 {
+                  "type": "bundle",
+                  "name": "main-view",
+                  "maximumWarning": "2MB",
+                  "maximumError": "3MB"
+                },
+                {
                   "type": "anyComponentStyle",
                   "maximumWarning": "4kB",
                   "maximumError": "8kB"
