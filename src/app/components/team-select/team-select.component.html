@@ -1,0 +1,57 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+  <section hlmCard class="w-full max-w-2xl mx-4 max-h-[90vh] flex flex-col">
+    <div hlmCardHeader>
+      <h2 hlmCardTitle class="text-2xl">Welcome to Baseball Tracker</h2>
+      <p hlmCardDescription>Select your favorite MLB team to get started</p>
+    </div>
+
+    <div hlmCardContent class="flex-1 overflow-y-auto">
+      <div class="grid gap-6">
+        <div>
+          <h3 class="text-lg font-semibold mb-3">National League</h3>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            @for (team of nlTeams(); track team.name) {
+              <button
+                type="button"
+                hlmBtn
+                [variant]="selectedTeam() === team.name ? 'default' : 'outline'"
+                class="h-auto py-3 px-4 justify-start"
+                (click)="selectTeam(team.name)"
+              >
+                {{ team.name }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-3">American League</h3>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            @for (team of alTeams(); track team.name) {
+              <button
+                type="button"
+                hlmBtn
+                [variant]="selectedTeam() === team.name ? 'default' : 'outline'"
+                class="h-auto py-3 px-4 justify-start"
+                (click)="selectTeam(team.name)"
+              >
+                {{ team.name }}
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div hlmCardFooter class="flex justify-end">
+      <button
+        type="button"
+        hlmBtn
+        [disabled]="!selectedTeam()"
+        (click)="confirmSelection()"
+      >
+        Continue
+      </button>
+    </div>
+  </section>
+</div>

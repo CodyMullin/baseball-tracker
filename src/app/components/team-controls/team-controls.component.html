@@ -1,0 +1,109 @@
+<section class="z-100 absolute left-0 right-0 mx-4 mt-4 md:left-auto md:right-auto md:min-w-md" hlmCard>
+	<button
+		type="button"
+		class="w-full flex items-center justify-between px-3 py-2 md:hidden cursor-pointer"
+		(click)="expanded.set(!expanded())"
+	>
+		<div>
+			<h3 class="font-semibold text-base">{{ selectedTeam() || 'Select a team' }}</h3>
+			<p class="text-xs text-muted-foreground">Tap to {{ expanded() ? 'collapse' : 'change team' }}</p>
+		</div>
+		<ng-icon
+			hlm
+			size="sm"
+			name="lucideChevronDown"
+			class="text-muted-foreground transition-transform duration-200"
+			[class.rotate-180]="expanded()"
+		/>
+	</button>
+
+	<div hlmCardHeader class="hidden md:block">
+		<h3 hlmCardTitle>Select a baseball team</h3>
+	</div>
+
+	<div
+		class="grid transition-[grid-template-rows] duration-200 ease-out md:!grid-rows-[1fr]"
+		[class.grid-rows-[0fr]]="!expanded()"
+		[class.grid-rows-[1fr]]="expanded()"
+	>
+		<div class="overflow-hidden">
+			<div hlmCardContent>
+				<form>
+					<div class="flex flex-col gap-6">
+						<div class="grid gap-2">
+							<label hlmLabel for="email">Major League Team</label>
+							<hlm-select [value]="selectedTeam()" (valueChange)="onTeamChange($event)">
+								<hlm-select-trigger class="w-full">
+									<hlm-select-value />
+								</hlm-select-trigger>
+								<hlm-select-content class="max-h-96 w-full overflow-y-auto">
+									<hlm-select-group>
+										<hlm-select-label>National League</hlm-select-label>
+										@for (team of nlTeams(); track team) {
+											<hlm-option [value]="team.name">{{ team.name }}</hlm-option>
+										}
+									</hlm-select-group>
+
+									<hlm-select-group>
+										<hlm-select-label>American League</hlm-select-label>
+										@for (team of alTeams(); track team) {
+											<hlm-option [value]="team.name">{{ team.name }}</hlm-option>
+										}
+									</hlm-select-group>
+								</hlm-select-content>
+							</hlm-select>
+						</div>
+					</div>
+				</form>
+
+				<hr class="my-4 border-border" />
+
+				<div class="flex flex-col gap-3">
+					@if (mlbStadium(); as mlb) {
+						<div>
+							<h4 class="text-sm font-medium text-muted-foreground mb-2">MLB</h4>
+							<button
+								type="button"
+								class="w-full text-left px-2 py-1.5 rounded-md hover:bg-accent cursor-pointer transition-colors flex items-center justify-between"
+								(click)="onStadiumClick(mlb)"
+							>
+								<div>
+									<span class="font-medium">{{ mlb.properties.Team }}</span>
+									<span class="text-sm text-muted-foreground block">{{ mlb.properties.Stadium }}</span>
+								</div>
+								<div>
+									<span hlmBadge variant="outline">{{ mlb.properties.League }} {{ mlb.properties.Division }}</span>
+								</div>
+							</button>
+						</div>
+					}
+
+					@if (minorLeagueStadiums().length > 0) {
+						<div>
+							<h4 class="text-sm font-medium text-muted-foreground mb-2">Minor League Affiliates</h4>
+							<div class="flex flex-col gap-1">
+								@for (milb of minorLeagueStadiums(); track milb.properties.Team) {
+									<button
+										type="button"
+										class="w-full text-left px-2 py-1.5 rounded-md hover:bg-accent cursor-pointer transition-colors flex items-center justify-between"
+										(click)="onStadiumClick(milb)"
+									>
+										<div>
+											<span class="font-medium">{{ milb.properties.Team }}</span>
+											<span class="text-sm text-muted-foreground block">
+												{{ milb.properties.Stadium }} ({{ milb.properties.Class }})
+											</span>
+										</div>
+										<div>
+											<span hlmBadge variant="outline">{{ milb.properties.League }} {{ milb.properties.Division }}</span>
+										</div>
+									</button>
+								}
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

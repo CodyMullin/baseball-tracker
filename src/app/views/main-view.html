@@ -1,0 +1,4 @@
+<bt-map [center]="center" [zoom]="4" (mapLoad)="onMapLoad($event)">
+  <bt-team-controls (layerCreated)="onLayerCreated($event)" (iconClicked)="onIconClicked($event)" (teamChanged)="onTeamChanged($event)" />
+  <bt-schedule (gameClicked)="onGameClicked($event)" />
+</bt-map>

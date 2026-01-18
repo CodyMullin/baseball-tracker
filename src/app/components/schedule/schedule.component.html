@@ -1,0 +1,75 @@
+<section class="z-100 absolute bottom-0 left-0 right-0 m-4 md:bottom-auto md:top-0 md:left-auto md:right-0 md:w-80 md:max-h-[calc(100vh-2rem)]" hlmCard>
+  <div hlmCardHeader class="pb-2">
+    <h3 hlmCardTitle class="text-base md:text-lg">2026 Schedule</h3>
+    <p hlmCardDescription>{{ selectedTeam() }}</p>
+  </div>
+
+  <div hlmCardContent class="p-0">
+    <div class="flex gap-2 overflow-x-auto px-4 pb-4 md:hidden">
+      @if (groupedGames().length === 0) {
+        <p class="text-sm text-muted-foreground py-4 text-center w-full">No schedule available</p>
+      } @else {
+        @for (game of games(); track game.date) {
+          <button
+            type="button"
+            class="shrink-0 w-36 text-left p-2 rounded-md border border-border hover:bg-accent cursor-pointer transition-colors"
+            (click)="onGameClick(game)"
+          >
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs text-muted-foreground">{{ formatDate(game.date) }}</span>
+              <span
+                class="text-xs px-1 py-0.5 rounded"
+                [class.bg-green-500/20]="game.home_away === 'home'"
+                [class.text-green-400]="game.home_away === 'home'"
+                [class.bg-blue-500/20]="game.home_away === 'away'"
+                [class.text-blue-400]="game.home_away === 'away'"
+              >
+                {{ game.home_away === 'home' ? 'H' : 'A' }}
+              </span>
+            </div>
+            <span class="font-medium text-sm block truncate">{{ game.opponent }}</span>
+            <span class="text-xs text-muted-foreground block truncate">{{ game.stadium }}</span>
+          </button>
+        }
+      }
+    </div>
+
+    <div class="hidden md:block h-[calc(100vh-10rem)] overflow-y-auto px-4 pb-4">
+      @if (groupedGames().length === 0) {
+        <p class="text-sm text-muted-foreground py-4 text-center">No schedule available</p>
+      } @else {
+        @for (group of groupedGames(); track group.month) {
+          <div class="mb-4">
+            <h4 class="text-sm font-semibold text-muted-foreground sticky top-0 bg-card py-2">
+              {{ group.month }}
+            </h4>
+            <div class="flex flex-col gap-1">
+              @for (game of group.games; track game.date) {
+                <button
+                  type="button"
+                  class="w-full text-left px-2 py-1.5 rounded-md hover:bg-accent cursor-pointer transition-colors"
+                  (click)="onGameClick(game)"
+                >
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs text-muted-foreground">{{ formatDate(game.date) }}</span>
+                    <span
+                      class="text-xs px-1.5 py-0.5 rounded"
+                      [class.bg-green-500/20]="game.home_away === 'home'"
+                      [class.text-green-400]="game.home_away === 'home'"
+                      [class.bg-blue-500/20]="game.home_away === 'away'"
+                      [class.text-blue-400]="game.home_away === 'away'"
+                    >
+                      {{ game.home_away === 'home' ? 'HOME' : 'AWAY' }}
+                    </span>
+                  </div>
+                  <span class="font-medium text-sm">{{ game.opponent }}</span>
+                  <span class="text-xs text-muted-foreground block">{{ game.stadium }}</span>
+                </button>
+              }
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</section>

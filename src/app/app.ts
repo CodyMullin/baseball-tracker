@@ -1,12 +1,22 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { BtTeamSelectComponent } from './components/team-select/team-select.component';
+import { FavoriteTeamService } from './utils/services/favorite-team';
+import { BaseballService } from './utils/services/baseball';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, BtTeamSelectComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('baseball-tracker');
+  private favoriteTeamService = inject(FavoriteTeamService);
+  private baseballService = inject(BaseballService);
+
+  showTeamSelect = !this.favoriteTeamService.hasSelectedTeam();
+
+  onTeamSelected(teamName: string): void {
+    this.baseballService.changeTeams(teamName);
+    this.showTeamSelect = false;
+  }
 }
